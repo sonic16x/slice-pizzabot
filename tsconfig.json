@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["es6", "dom"],
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true
+  },
+  "outDir": "./dist",
+  "rootDir": "./src",
+  "files": [
+    "./node_modules/@types/jest/index.d.ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": ["node_modules", "src/**/*.test.ts"]
+}
