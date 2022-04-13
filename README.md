@@ -4,6 +4,29 @@
 
 Sergei Cherebedov
 
+## Description
+
+PizzaBot is a robot that delivers pizza. It takes particular instructions on how to deliver pizzas to all the houses in a neighborhood.
+
+How it Works:
+
+It uses the following instructions:
+
+N: Move north
+S: Move south
+E: Move east
+W: Move west
+D: Drop pizza
+
+Pizzabot always starts at the origin point, (0, 0).
+As with a Cartesian plane, this point lies at the most southwesterly point of the grid.
+For example Pizzabot receives the following input string: 5x5 (1, 3) (4, 4).
+It means that grid has 5x5 size, (1, 3) (4, 4) are the points to deliver pizza.
+The result string will be ENNNDEEEND.
+In other words: move east once and north thrice; drop a pizza; move east thrice and north once; drop a final pizza.
+
+Sergei Cherebedov
+
 ## Environment
 
 ```sh
