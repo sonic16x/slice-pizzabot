@@ -6,6 +6,7 @@ const margin = 50;
 const targetRadius = 5;
 const labelMargin = 10;
 const triangleSize = 5;
+const cursorSpeed = 0.2;
 
 // just function for generate svg image
 export function generateSvg([sizeX, sizeY], targets: ITargets, path: string): string {
@@ -48,6 +49,8 @@ export function generateSvg([sizeX, sizeY], targets: ITargets, path: string): st
     let prevX = margin;
     let prevY = height - margin;
 
+    let cursorPath: string = `M ${margin} ${height - margin}`;
+
     path.split('').forEach((action, index) => {
         if (action === Action.DROP || index === path.length - 1) {
             return;
@@ -76,10 +79,14 @@ export function generateSvg([sizeX, sizeY], targets: ITargets, path: string): st
         }
 
         pathSvg.push(`<line x1="${prevX}" y1="${prevY}" x2="${x}" y2="${y}" style="stroke-dasharray: 5 5 ; stroke: #00F; stroke-width: 2;" />`);
+        cursorPath += `L ${x} ${y}`;
 
         prevX = x;
         prevY = y;
     });
+
+    const pathLength = path.replace(/D/g, '').length;
+    const animationTime = cursorSpeed * pathLength;
 
     return `
         <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
@@ -89,6 +96,12 @@ export function generateSvg([sizeX, sizeY], targets: ITargets, path: string): st
             ${pathSvg.join('\n')}
             ${targetsSvg.join('\n')}
             ${labelsSvg.join('\n')}
+
+            <path id="cursorPath" class="cursorPath" d="${cursorPath}" visibility="hidden"/>
+            <circle id="cursor" r="${targetRadius}" stroke="#00f" stroke-width="0" fill="#00f"/>
+            <animateMotion xlink:href="#cursor" dur="${animationTime}s" repeatCount="indefinite" rotate="auto">
+                <mpath xlink:href="#cursorPath" />
+            </animateMotion> 
         </svg>
     `;
 }
