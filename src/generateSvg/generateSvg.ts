@@ -16,7 +16,6 @@ export function generateSvg([sizeX, sizeY], targets: ITargets, path: string): st
     const labelsSvg: string[] = [];
     const targetsSvg: string[] = [];
     const gridLinesSvg: string[] = [];
-    const pathSvg: string[] = [];
     const trianglesSvg: string[] = [];
 
     trianglesSvg.push(
@@ -78,7 +77,6 @@ export function generateSvg([sizeX, sizeY], targets: ITargets, path: string): st
                 break;
         }
 
-        pathSvg.push(`<line x1="${prevX}" y1="${prevY}" x2="${x}" y2="${y}" style="stroke-dasharray: 5 5 ; stroke: #00F; stroke-width: 2;" />`);
         cursorPath += `L ${x} ${y}`;
 
         prevX = x;
@@ -91,15 +89,30 @@ export function generateSvg([sizeX, sizeY], targets: ITargets, path: string): st
     return `
         <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
             <rect width="100%" height="100%" fill="#fff" stroke="black" stroke-width="2"/>
+
             ${gridLinesSvg.join('\n')}
             ${trianglesSvg.join('\n')}
-            ${pathSvg.join('\n')}
+
+            <path
+                id="cursorPath"
+                class="cursorPath"
+                d="${cursorPath}"
+                fill="none"
+                stroke-dasharray="5 5"
+                stroke="#00F"
+                stroke-width="2"
+            />
+
             ${targetsSvg.join('\n')}
             ${labelsSvg.join('\n')}
 
-            <path id="cursorPath" class="cursorPath" d="${cursorPath}" visibility="hidden"/>
             <circle id="cursor" r="${targetRadius}" stroke="#00f" stroke-width="0" fill="#00f"/>
-            <animateMotion xlink:href="#cursor" dur="${animationTime}s" repeatCount="indefinite" rotate="auto">
+            <animateMotion
+                xlink:href="#cursor"
+                dur="${animationTime}s"
+                repeatCount="indefinite"
+                rotate="auto"
+            >
                 <mpath xlink:href="#cursorPath" />
             </animateMotion> 
         </svg>
